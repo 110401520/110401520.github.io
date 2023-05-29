@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>匯率轉換計算機</title>
+    <!-- 第三題 -->
+    <link rel="stylesheet" href="mystyle.css" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+</head>
+<!-- 第一題 -->
+<body>
+    <h1>匯率轉換計算機</h1>
+    <h1>請輸入台幣金額：</h1>
+    <input type="number" id="twdAmount" min="0">
+    <div id="result"></div>
+        <button onclick="reset()">重新輸入</button>
+        <button onclick="checkInput()">執行計算</button>
+    <script>
+        var originalResult = document.getElementById("result").innerHTML;
+
+        function calculate() {
+            // 第二題
+            var twdAmount = document.getElementById("twdAmount").value;
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    var xmlData = this.responseXML;
+                    var rates = xmlData.getElementsByTagName("currency");
+                    
+                    var usdRate = parseFloat(rates[0].getAttribute("rate"));
+                    var eurRate = parseFloat(rates[1].getAttribute("rate"));
+                    var jpyRate = parseFloat(rates[2].getAttribute("rate"));
+                    var krwRate = parseFloat(rates[3].getAttribute("rate"));
+                    var audRate = parseFloat(rates[4].getAttribute("rate"));
+
+                    var usdAmount = twdAmount / usdRate;
+                    var eurAmount = twdAmount / eurRate;
+                    var jpyAmount = twdAmount / jpyRate;
+                    var krwAmount = twdAmount / krwRate;
+                    var audAmount = twdAmount / audRate;
+
+                    var result = "美金 USD:" + usdAmount.toFixed(2) + " <br>" +
+                                 "歐元 EUR:" + eurAmount.toFixed(2) + " <br>" +
+                                 "日圓 JPY:" + jpyAmount.toFixed(2) + " <br>" +
+                                 "韓元 KRW:" + krwAmount.toFixed(2) + " <br>" +
+                                 "澳幣 AUD:" + audAmount.toFixed(2) + " ";
+
+                    document.getElementById("result").innerHTML = result;
+                }
+            };
+            xmlhttp.open("GET", "rate.xml", true);
+            xmlhttp.send();
+        }
+        // 第四題
+        function reset() {
+            document.getElementById("twdAmount").value = "";
+            document.getElementById("result").innerHTML = originalResult;
+        }
+
+        // 第五題
+        function checkInput() {
+            var twdAmount = document.getElementById("twdAmount").value;
+            if (isNaN(twdAmount) || twdAmount === "") {
+                alert("請輸入有效數值");
+                reset();
+            } else {
+                calculate();
+            }
+        }
+    </script>
+</body>
+</html>
