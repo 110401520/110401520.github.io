@@ -13,10 +13,12 @@
 <body>
     <h1>匯率轉換計算機</h1>
     <h1>請輸入台幣金額：</h1>
-    <input type="number" id="twdAmount" min="0">
-    <div id="result"></div>
+    <div>    
+        <input type="number" id="twdAmount" min="0">
+    </div>
         <button onclick="reset()">重新輸入</button>
         <button onclick="checkInput()">執行計算</button>
+        <div id="result"></div>
     <script>
         var originalResult = document.getElementById("result").innerHTML;
 
@@ -53,6 +55,7 @@
             xmlhttp.open("GET", "rate.xml", true);
             xmlhttp.send();
         }
+
         // 第四題
         function reset() {
             document.getElementById("twdAmount").value = "";
